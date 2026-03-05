@@ -1,0 +1,15 @@
+[Unit]
+Description=OBE Chatbot Docker Compose Stack
+After=docker.service network-online.target
+Requires=docker.service
+
+[Service]
+Type=oneshot
+WorkingDirectory=/opt/obe-architects-bot
+ExecStart=/usr/bin/docker compose --env-file .env.production -f docker-compose.prod.yml up -d
+ExecStop=/usr/bin/docker compose --env-file .env.production -f docker-compose.prod.yml down
+RemainAfterExit=yes
+TimeoutStartSec=0
+
+[Install]
+WantedBy=multi-user.target

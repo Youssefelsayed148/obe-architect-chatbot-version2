@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>OBE Chatbot Cross-Origin Test Client</title>
+  <link rel="icon" href="data:," />
+  <style>
+    body {
+      margin: 0;
+      padding: 40px;
+      font-family: Arial, sans-serif;
+      background: #f2f5f9;
+      color: #1f2937;
+    }
+    .card {
+      max-width: 720px;
+      background: #fff;
+      border: 1px solid #d8e0ea;
+      border-radius: 12px;
+      padding: 24px;
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.06);
+    }
+    code {
+      background: #eef2f7;
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>Client Website (Local Test)</h1>
+    <p>This page is served from <code>http://localhost:5500</code>.</p>
+    <p>Chat widget script is loaded from <code>http://127.0.0.1/widget.js</code> to validate cross-origin embedding.</p>
+  </div>
+
+  <script>
+    window.OBE_CHATBOT_CONFIG = {
+      apiBase: "http://127.0.0.1"
+    };
+  </script>
+  <script src="http://127.0.0.1/widget.js" defer></script>
+</body>
+</html>

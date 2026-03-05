@@ -1,0 +1,13 @@
+services:
+  app:
+    environment:
+      WHATSAPP_MOCK_SEND: "1"
+      WHATSAPP_VERIFY_TOKEN: "verify_me"
+      WHATSAPP_ACCESS_TOKEN: "mock_access_token"
+      WHATSAPP_PHONE_NUMBER_ID: "mock_phone_number_id"
+      HANDOFF_NOTIFY_TO: "handoff@example.com"
+      LEADS_NOTIFY_TO: "handoff@example.com"
+
+  worker:
+    environment:
+      SENDGRID_API_KEY: ""

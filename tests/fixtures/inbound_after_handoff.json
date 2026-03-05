@@ -1,0 +1,22 @@
+{
+  "entry": [
+    {
+      "changes": [
+        {
+          "value": {
+            "messages": [
+              {
+                "id": "wamid-e2e-after-handoff-001",
+                "from": "15559990001",
+                "type": "text",
+                "text": {
+                  "body": "are you there?"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

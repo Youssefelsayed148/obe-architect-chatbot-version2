@@ -1,0 +1,50 @@
+{
+  "discovered_urls_count": 13,
+  "fetched_urls_count": 71,
+  "kept_docs_count": 56,
+  "skipped_small_count": 7,
+  "skipped_robots_count": 0,
+  "skipped_invalid_scope_count": 0,
+  "skipped_query_filtered_count": 0,
+  "errors_by_type": {},
+  "category_pages_count": 6,
+  "project_detail_pages_count": 56,
+  "discovered_categories_count": 6,
+  "discovered_project_ids_count": 56,
+  "project_detail_pages_fetched_count": 56,
+  "category_pages_fetched_count": 6,
+  "top_10_paths_crawled": [
+    {
+      "path": "/obe/project-detail.php",
+      "count": 56
+    },
+    {
+      "path": "/obe/projectlists.php",
+      "count": 7
+    },
+    {
+      "path": "/obe/projects.php",
+      "count": 2
+    },
+    {
+      "path": "/obe/index.php",
+      "count": 2
+    },
+    {
+      "path": "/obe/expertise.php",
+      "count": 1
+    },
+    {
+      "path": "/obe/media.php",
+      "count": 1
+    },
+    {
+      "path": "/obe/about-us.php",
+      "count": 1
+    },
+    {
+      "path": "/obe/contact-us.php",
+      "count": 1
+    }
+  ]
+}

@@ -1,0 +1,5 @@
+ALTER TABLE analytics_events
+  ADD COLUMN IF NOT EXISTS route_taken TEXT,
+  ADD COLUMN IF NOT EXISTS retrieval_top_score DOUBLE PRECISION,
+  ADD COLUMN IF NOT EXISTS retrieval_k INTEGER,
+  ADD COLUMN IF NOT EXISTS fallback_reason TEXT;

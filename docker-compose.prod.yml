@@ -1,0 +1,137 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    command:
+      - /bin/sh
+      - -ec
+      - |
+        if command -v alembic >/dev/null 2>&1 && [ -f /app/alembic.ini ]; then
+          echo "Running Alembic migrations..."
+          alembic upgrade head
+        else
+          echo "Alembic not configured; continuing without alembic upgrade."
+        fi
+        if [ "${RAG_ENABLED:-false}" = "true" ] || [ "${RAG_PUBLIC_ENABLED:-false}" = "true" ]; then
+          echo "Running pgvector RAG migration..."
+          python -m tools.rag migrate
+        fi
+        exec uvicorn app.main:app --host 0.0.0.0 --port 8000
+    env_file: .env.production
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    expose:
+      - "8000"
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/health', timeout=3).read()"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+    restart: unless-stopped
+    networks:
+      backend:
+        aliases:
+          - app
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  worker:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    command: python -m app.worker.email_worker
+    env_file: .env.production
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "python", "-c", "import socket; socket.create_connection(('db', 5432), 2).close(); print('ok')"]
+      interval: 20s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+    restart: unless-stopped
+    networks:
+      - backend
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  db:
+    image: pgvector/pgvector:pg16
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-obe_bot}
+      POSTGRES_USER: ${POSTGRES_USER:-obe_user}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-change_me_postgres_password}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-obe_user} -d ${POSTGRES_DB:-obe_bot}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+    restart: unless-stopped
+    networks:
+      backend:
+        aliases:
+          - db
+
+  redis:
+    image: redis:7
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    restart: unless-stopped
+    networks:
+      backend:
+        aliases:
+          - redis
+
+  ollama:
+    image: ollama/ollama:latest
+    volumes:
+      - ollama:/root/.ollama
+    restart: unless-stopped
+    networks:
+      - backend
+
+  nginx:
+    image: nginx:alpine
+    volumes:
+      - ./docker/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./web:/usr/share/nginx/html/widget:ro
+    ports:
+      - "80:80"
+      - "443:443"
+    depends_on:
+      app:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://127.0.0.1/health >/dev/null 2>&1"]
+      interval: 20s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    restart: unless-stopped
+    networks:
+      - backend
+      - edge
+
+volumes:
+  pgdata:
+  ollama:
+
+networks:
+  backend:
+    internal: false
+  edge:

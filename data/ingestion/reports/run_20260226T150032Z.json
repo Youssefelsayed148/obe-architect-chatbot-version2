@@ -1,0 +1,54 @@
+{
+  "discovered_urls_count": 2004,
+  "fetched_urls_count": 2000,
+  "kept_docs_count": 63,
+  "skipped_small_count": 7,
+  "skipped_robots_count": 0,
+  "skipped_invalid_scope_count": 19830,
+  "skipped_query_filtered_count": 0,
+  "errors_by_type": {},
+  "category_pages_count": 6,
+  "project_detail_pages_count": 640,
+  "top_10_paths_crawled": [
+    {
+      "path": "/obe/project-detail.php",
+      "count": 56
+    },
+    {
+      "path": "/obe/projectlists.php",
+      "count": 7
+    },
+    {
+      "path": "/obe/css/project-detail.php",
+      "count": 4
+    },
+    {
+      "path": "/obe/css/css/project-detail.php",
+      "count": 4
+    },
+    {
+      "path": "/obe/css/css/css/project-detail.php",
+      "count": 4
+    },
+    {
+      "path": "/obe/css/css/css/css/project-detail.php",
+      "count": 4
+    },
+    {
+      "path": "/obe/css/css/css/css/css/project-detail.php",
+      "count": 4
+    },
+    {
+      "path": "/obe/css/css/css/css/css/css/project-detail.php",
+      "count": 4
+    },
+    {
+      "path": "/obe/css/css/css/css/css/css/css/project-detail.php",
+      "count": 4
+    },
+    {
+      "path": "/obe/css/css/css/css/css/css/css/css/project-detail.php",
+      "count": 4
+    }
+  ]
+}
